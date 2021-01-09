@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <title>My page</title>
+  <!-- <script type="text/javascript" src="wgo/wgo.min.js"></script>
+  <script type="text/javascript" src="wgo/wgo.player.min.js"></script> -->
+  <script type="text/javascript" src="wgo/wgo.js"></script>
+	<script type="text/javascript" src="wgo/kifu.js"></script>
+	<script type="text/javascript" src="wgo/sgfparser.js"></script>
+	<script type="text/javascript" src="wgo/player.js"></script>
+	<script type="text/javascript" src="wgo/basicplayer.js"></script>
+	<script type="text/javascript" src="wgo/basicplayer.component.js"></script>
+	<script type="text/javascript" src="wgo/basicplayer.infobox.js"></script>
+	<script type="text/javascript" src="wgo/basicplayer.commentbox.js"></script>
+	<script type="text/javascript" src="wgo/basicplayer.control.js"></script>
+	<script type="text/javascript" src="wgo/player.editable.js"></script>
+	<script type="text/javascript" src="wgo/player.ol_play.js"></script>
+	<script type="text/javascript" src="wgo/scoremode.js"></script>
+  <script type="text/javascript" src="wgo/player.permalink.js"></script>
+  <!-- <script type="text/javascript" src="wgo.js/i18n/i18n.zh.js"></script> -->
+  <link type="text/css" href="wgo/wgo.player.css" rel="stylesheet" />
+</head>
+
+<body>
+  <!-- <div data-wgo="game.sgf" style="width: 60%; margin: 0">
+    Your browser doesn't support WGo Player. Use some modern browser like IE9, Google Chrome or Mozilla Firefox.
+  </div> -->
+  <div id="player" style="width: 60%; margin: 0"></div>
+  <script type="text/javascript">
+    // console.log(this);
+    var ai_first = false;
+    var elem = document.getElementById("player");
+    var player = new WGo.BasicPlayer(elem, {
+      sgf: "(;GM[1]FF[4]CA[UTF-8]KM[6.5]SZ[19]PB[Human]PW[AI]SBKV[42.47])"
+    });
+    var game = new WGo.Player.OL_Play(player, player.board, ai_first);
+  </script>
+</body>
+
+</html>
