@@ -27,7 +27,7 @@ coming soon...
 
 ## Todo List
 I'll make effort to let the project become fully functional, more powerful and more beautiful.
-Following functions are important need to be support:
+Following functions are important and need to be support:
 
 - [ ] change color of stone
 - [ ] resign
