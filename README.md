@@ -1,1 +1,1 @@
-# NodeGo: A Nodejs Web Server for Go Game AI  
+# NodeGo: A Node.js Web Server for Go Game AI  
