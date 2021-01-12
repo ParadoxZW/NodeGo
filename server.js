@@ -2,10 +2,10 @@ const http = require('http');
 const fs = require('fs');
 const url = require('url');
 const querystring = require('querystring');
-const {Controller} = require('@sabaki/gtp');
+const { Controller } = require('@sabaki/gtp');
 
 // initial some basic object and configs
-const idColor = {"1": "B", "-1":"W"};
+const idColor = { "1": "B", "-1": "W" };
 let mime_type = fs.readFileSync("./mime.json");
 let parseData = JSON.parse(mime_type.toString());
 
@@ -17,27 +17,35 @@ let leela = new Controller(leela_path + 'leelaz.exe', leela_cofig);
 leela.start();
 
 // define necessary/useful functions
-const str2int = (s => s.charCodeAt() - 'A'.charCodeAt());
-const int2str = (i => String.fromCharCode(i + ('A'.charCodeAt())));
+const str2int = (s => {
+    let v = s.charCodeAt() - 'A'.charCodeAt();
+    return (s > 'I') ? (v - 1) : v;
+
+});
+const int2str = (i => {
+    let j = (i > 7) ? (i + 1) : i;
+    return String.fromCharCode(j + ('A'.charCodeAt()));
+});
 
 async function genmove(response, moves) {
     let leela_response, pos, new_move, arg, c, x, y;
     try {
         // console.log(typeof moves);
-        await leela.sendCommand({name: 'clear_board'});
+        await leela.sendCommand({ name: 'clear_board' });
         // console.log(2);
         for (let move of moves) {
             c = move.c;
             // console.log(move);
             // console.log(int2str(move.x));
-            pos = int2str(move.x) + move.y;
+            pos = int2str(move.x) + (19 - move.y);
+            console.log('user: ' + pos);
             arg = [idColor[c.toString()], pos];
             // console.log(arg);
-            await leela.sendCommand({name: 'play', args:arg});
+            await leela.sendCommand({ name: 'play', args: arg });
         }
         arg = [idColor[(-c).toString()]];
         // console.log(arg);
-        leela_response = await leela.sendCommand({ name: 'genmove', args: arg});
+        leela_response = await leela.sendCommand({ name: 'genmove', args: arg });
     } catch (err) {
         console.log(err);
         throw new Error('Failed to send command!')
@@ -46,11 +54,11 @@ async function genmove(response, moves) {
         throw new Error('Command not understood by Leela!')
     }
 
-    console.log(leela_response.content);
+    console.log('leela: ' + leela_response.content);
     x = str2int(leela_response.content.charAt(0));
-    y = leela_response.content.slice(1);
+    y = 19 - eval(leela_response.content.slice(1));
     new_move = `[${x}, ${y}]`;
-    response.end(new_move); 
+    response.end(new_move);
 }
 
 
@@ -101,9 +109,9 @@ http.createServer(function (request, response) {
             });
             // return;
         }
-    }else {
+    } else {
 
-    // GET
+        // GET
 
         if (pathname == '/') {
             pathname = '/index.html';
